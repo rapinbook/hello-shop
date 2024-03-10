@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/rapinbook/hello-shop/config"
+	database "github.com/rapinbook/hello-shop/pkg/database/script"
 )
 
 func main() {
@@ -17,8 +18,8 @@ func main() {
 		}
 		return os.Args[1]
 	}())
-	// if err != nil {
-	// 	log.Fatal("Error loading .env file")
-	// }
-	log.Println(cfg)
+	db := database.DbConn(ctx, &cfg)
+
+	defer db.Disconnect(ctx)
+	log.Println(db)
 }
